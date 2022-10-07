@@ -24,7 +24,6 @@ poetry run python -m ilo
 ```
 
 If you wish to work on the project, use this command first to install the pre-commit hooks:
-s
 ```
 poetry run pre-commit install
 ```
