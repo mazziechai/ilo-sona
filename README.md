@@ -6,7 +6,7 @@ A utility bot for the [kama sona Discord server](https://discord.gg/ChC6qtVsSE).
 
 This project is managed by [Poetry](https://python-poetry.org).
 
-First, make a configuration file:
+First, make a configuration file as `config.py`:
 
 ```
 import logging
