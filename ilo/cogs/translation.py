@@ -111,7 +111,7 @@ class TranslationCog(commands.Cog):
     async def post_translation_challenge(self):
         time = datetime.utcnow()
         if time.weekday() == 2 or time.weekday() == 5:
-            if time.hour == 18:
+            if time.hour == 18 and time.minute == 0:
                 await _post_translation_challenge(self.bot)
 
     @commands.check(lambda ctx: ctx.author.id == 712104395747098656)
