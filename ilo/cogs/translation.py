@@ -114,6 +114,10 @@ class TranslationCog(commands.Cog):
             if time.hour == 18 and time.minute == 0:
                 await _post_translation_challenge(self.bot)
 
+    @post_translation_challenge.after_loop
+    async def translation_after_loop(self):
+        pass
+
     @commands.check(lambda ctx: ctx.author.id == 712104395747098656)
     @commands.slash_command(name="debug")
     async def debug(self, ctx: ApplicationContext):
