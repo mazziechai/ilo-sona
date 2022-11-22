@@ -3,7 +3,6 @@ from logging.handlers import RotatingFileHandler
 
 import discord
 import mongoengine
-
 from config import DB_CONNECTION_STRING, LOG_LEVEL, TEST_SERVERS, TOKEN
 
 from .bot import Ilo
