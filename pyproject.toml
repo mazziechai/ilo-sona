@@ -7,7 +7,7 @@ authors = [
     { name = "gregdan3", email = "gregdan3@pm.me" },
 ]
 dependencies = [
-    "py-cord>=2.2.2",
+    "py-cord[speed]>=2.2.2",
     "python-dateutil>=2.8.2",
     "python-dotenv>=0.21.0",
 ]
