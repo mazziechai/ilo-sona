@@ -7,6 +7,9 @@ services:
       dockerfile: "Dockerfile"
     environment:
       BOT_TOKEN: "${BOT_TOKEN}"
+      CLIENT_ID: "${CLIENT_ID}"
+      LOG_LEVEL: "${LOG_LEVEL}"
+      TEST_SERVERS: "${TEST_SERVERS}"
     deploy:
       restart_policy:
         condition: "unless-stopped"
