@@ -14,5 +14,8 @@ up:
 down:
 	docker compose down
 
+logs:
+	docker compose logs
+
 dev: 
-	echo "TODO"
+	docker compose up
