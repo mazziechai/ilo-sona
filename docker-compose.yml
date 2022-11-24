@@ -10,7 +10,7 @@ services:
       CLIENT_ID: "${CLIENT_ID}"
       LOG_LEVEL: "${LOG_LEVEL}"
       TEST_SERVERS: "${TEST_SERVERS}"
-      SENTENCE_CSV_FILE: "${SENTENCE_CSV_FILE}"
+      SQLITE_DB: "${SQLITE_DB}"
     deploy:
       restart_policy:
         condition: "unless-stopped"
