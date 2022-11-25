@@ -20,7 +20,8 @@ multi_line_output = 3
 
 [tool.flake8]
 max-line-length = 88
-extend-ignore = ["E203", "E501", "F722"]
+extend-ignore = ["E203", "E501", "F722", "E402"]
+# E402 conflicts with isort
 
 [build-system]
 requires = ["pdm-pep517>=1.0.0"]
