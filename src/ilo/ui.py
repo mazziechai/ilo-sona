@@ -1,4 +1,10 @@
+import logging
+
 import discord
+
+from ilo.db import ChallengeDB
+
+LOG = logging.getLogger()
 
 
 class TranslationCogSubmitModal(discord.ui.Modal):
@@ -17,17 +23,16 @@ class TranslationCogSubmitModal(discord.ui.Modal):
     async def callback(self, interaction: discord.Interaction):
         await interaction.response.send_message(
             content="mi pana e toki sina tawa lawa ma! lawa li wile lukin e toki sina. o awen."
-            "I submitted your sentence to the overlords! Please wait for verification.",
+            "I submitted your sentence to the overlords! Please wait for approval.",
             ephemeral=True,
         )
         self.stop()
 
 
-class TranslationVerificationView(discord.ui.View):
-    def __init__(self, sentence):
+class TranslationApprovalView(discord.ui.View):
+    def __init__(self, db: ChallengeDB):
         super().__init__(timeout=None)
-
-        self.sentence = sentence
+        self.db: ChallengeDB = db
 
     @discord.ui.button(label="pona", style=discord.ButtonStyle.success)
     async def pona_callback(
@@ -36,12 +41,15 @@ class TranslationVerificationView(discord.ui.View):
         for child in self.children:
             child.disabled = True  # type: ignore
 
-        self.sentence.verified = True
-        self.sentence.save()
+        msg = interaction.message
+        assert msg
+        sentence = self.db.set_sentence_approval(msg.id, True)
+        assert sentence
 
+        assert interaction.user
         await interaction.response.edit_message(
-            content=f"<@{self.sentence.user}> li wile pana e toki ni tawa musi pi ante toki:\n"
-            f"> {self.sentence.sentence}\n"
+            content=f"<@{sentence.user_id}> li wile pana e toki ni tawa musi pi ante toki:\n"
+            f"> {sentence.sentence}\n"
             f"*toki ni li **pona** tawa {interaction.user.mention}. toki li ken lon.*",
             view=self,
         )
@@ -53,9 +61,15 @@ class TranslationVerificationView(discord.ui.View):
         for child in self.children:
             child.disabled = True  # type: ignore
 
+        msg = interaction.message
+        assert msg
+        sentence = self.db.set_sentence_approval(msg.id, False)
+        assert sentence
+
+        assert interaction.user
         await interaction.response.edit_message(
-            content=f"<@{self.sentence.user}> li wile pana e toki ni tawa musi pi ante toki:\n"
-            f"> {self.sentence.sentence}\n"
+            content=f"<@{sentence.user_id}> li wile pana e toki ni tawa musi pi ante toki:\n"
+            f"> {sentence.sentence}\n"
             f"*toki ni li **ike** tawa {interaction.user.mention}. toki li ken **ala** lon.*",
             view=self,
         )
