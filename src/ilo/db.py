@@ -117,7 +117,9 @@ class ChallengeDB:
     def get_use_challenge(self, server_id: int) -> Sentence:
         """Gives"""
         server = self.s.query(Server).filter_by(id=server_id).first()
-        assert server
+        if not server:
+            server = self.configure_server(server_id, None, None, None, None, 0)
+            # TODO
         sentence = (
             self.s.query(Sentence)
             .filter_by(server_id=server_id, approved=True, used=False)
