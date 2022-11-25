@@ -17,9 +17,6 @@ down:
 logs:
 	docker compose logs
 
-dev: 
-	docker compose up
-
 db:
 	# bot must be running
 	docker exec -it ilo-sona-bot-1 bash -c 'sqlite3 $${SQLITE_DB}'
