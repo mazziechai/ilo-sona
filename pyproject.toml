@@ -7,8 +7,9 @@ authors = [
     { name = "gregdan3", email = "gregdan3@pm.me" },
 ]
 dependencies = [
-    "py-cord[speed]>=2.2.2",
+    "py-cord[speed]>=2.3.0",
     "python-dateutil>=2.8.2",
+    "sqlalchemy>=2.0.0b3",
 ]
 requires-python = ">=3.8"
 license = { text = "MIT" }
