@@ -5,12 +5,15 @@ import uuid
 import discord
 from discord.ext import commands
 
+from ilo.db import ChallengeDB
+
 LOG = logging.getLogger()
 
 
 class Ilo(discord.Bot):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, database_file: str, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.db = ChallengeDB(database_file=database_file)
 
         # Loading every cog in the cogs folder
         cogs = ["translation"]
