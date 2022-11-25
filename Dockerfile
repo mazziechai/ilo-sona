@@ -8,6 +8,11 @@ WORKDIR /project
 RUN pdm install --prod --no-lock --no-editable
 
 FROM python:3.9-slim AS bot
+RUN apt-get update -y && \
+    apt-get install -y --no-install-recommends sqlite3 && \
+    apt-get autoclean -y && \
+    apt-get autoremove -y
+
 ENV PYTHONPATH=/project/pkgs
 COPY --from=builder /project/__pypackages__/3.9/lib /project/pkgs
 COPY src/ /project/pkgs/
