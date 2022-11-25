@@ -45,5 +45,5 @@ class Ilo(discord.Bot):
             await ctx.respond(
                 f"Exception `{error.args}` from {ctx.command.qualified_name}!\n"
                 f"Error ID: `{error_id}`\n"
-                "Please send the error ID to `gregdan3#0042` for debugging."
+                "Please send the error ID to `nano ferret#8613` for debugging."
             )
