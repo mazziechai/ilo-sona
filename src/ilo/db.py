@@ -1,4 +1,7 @@
+import logging
 from datetime import datetime
+
+LOG = logging.getLogger()
 
 from mongoengine import (
     BooleanField,

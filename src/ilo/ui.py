@@ -1,4 +1,8 @@
+import logging
+
 import discord
+
+LOG = logging.getLogger()
 
 
 class TranslationCogSubmitModal(discord.ui.Modal):
@@ -39,6 +43,7 @@ class TranslationVerificationView(discord.ui.View):
         self.sentence.verified = True
         self.sentence.save()
 
+        assert interaction.user
         await interaction.response.edit_message(
             content=f"<@{self.sentence.user}> li wile pana e toki ni tawa musi pi ante toki:\n"
             f"> {self.sentence.sentence}\n"
@@ -53,6 +58,9 @@ class TranslationVerificationView(discord.ui.View):
         for child in self.children:
             child.disabled = True  # type: ignore
 
+        # db no-op
+
+        assert interaction.user
         await interaction.response.edit_message(
             content=f"<@{self.sentence.user}> li wile pana e toki ni tawa musi pi ante toki:\n"
             f"> {self.sentence.sentence}\n"

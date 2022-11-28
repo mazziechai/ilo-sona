@@ -5,12 +5,12 @@ import uuid
 import discord
 from discord.ext import commands
 
+LOG = logging.getLogger()
+
 
 class Ilo(discord.Bot):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        self.log = logging.getLogger("ilo")
 
         # Loading every cog in the cogs folder
         cogs = ["translation"]
@@ -19,7 +19,7 @@ class Ilo(discord.Bot):
             self.load_extensions(f"ilo.cogs.{cog}")
 
     async def on_ready(self):
-        self.log.info("Logged in!")
+        LOG.info("Logged in!")
 
     async def on_application_command_error(
         self, ctx: discord.ApplicationContext, error
@@ -33,7 +33,7 @@ class Ilo(discord.Bot):
         if isinstance(error, discord.ApplicationCommandInvokeError):
             error_id = uuid.uuid4()
 
-            self.log.exception(
+            LOG.exception(
                 f"Exception from {ctx.command.qualified_name}!\n"
                 f"{''.join(traceback.format_exception(type(error), error, error.__traceback__))}"
                 f"Error ID: {error_id}"

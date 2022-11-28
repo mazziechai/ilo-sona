@@ -1,46 +1,36 @@
 import logging
-from logging.handlers import RotatingFileHandler
+import os
 
 import discord
 import mongoengine
 
-from config import DB_CONNECTION_STRING, LOG_LEVEL, TEST_SERVERS, TOKEN
+from ilo.bot import Ilo
 
-from .bot import Ilo
+BOT_TOKEN = os.environ["BOT_TOKEN"]
+LOG_LEVEL = os.environ["LOG_LEVEL"].upper()
+TEST_SERVERS = [int(n) for n in os.environ["TEST_SERVERS"].split(",") if n]
+DB_CONNECTION_STRING = os.environ["DB_CONNECTION_STRING"]
+
+LOG = logging.getLogger()
 
 
-def main():
-    if not TOKEN:
-        raise Exception("A token was not specified in the config!")
-
-    # Setting up logging
+def init_logger():
     logging.getLogger("discord").setLevel(logging.INFO)
 
     root_logger = logging.getLogger()
     root_logger.setLevel(LOG_LEVEL)
-
-    file_handler = RotatingFileHandler(
-        filename="bot.log",
-        encoding="utf-8",
-        mode="w",
-        maxBytes=32 * 1024 * 1024,
-        backupCount=5,
-    )
     datefmt = "%Y-%m-%d %H:%M:%S"
     fmt = logging.Formatter(
         "[{asctime}] [{levelname}] {name}: {message}", datefmt, style="{"
     )
-
-    file_handler.setFormatter(fmt)
-
     stream_handler = logging.StreamHandler()
     stream_handler.setFormatter(fmt)
-
-    root_logger.addHandler(file_handler)
     root_logger.addHandler(stream_handler)
 
-    log = logging.getLogger("ilo")
 
+def main():
+    assert BOT_TOKEN, "A token was not provided in the environment!"
+    init_logger()
     # Initialize databaseC
     mongoengine.connect(host=DB_CONNECTION_STRING)
 
@@ -50,8 +40,8 @@ def main():
         debug_guilds=TEST_SERVERS,
     )
 
-    log.info("Logging in...")
-    bot.run(TOKEN, reconnect=True)
+    LOG.info("Logging in...")
+    bot.run(BOT_TOKEN, reconnect=True)
 
 
 if __name__ == "__main__":
