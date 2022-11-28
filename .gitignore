@@ -1,6 +1,4 @@
-**/__pycache__
-<<<<<<< HEAD
-config.py
-bot.log
-=======
->>>>>>> 3a559d1 (aaaaaaa)
+__pycache__
+__pypackages__
+.pdm.toml
+.env
