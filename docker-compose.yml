@@ -1,0 +1,21 @@
+---
+version: "3.8"
+services:
+  bot:
+    build:
+      context: "."
+      dockerfile: "Dockerfile"
+    environment:
+      BOT_TOKEN: "${BOT_TOKEN}"
+      LOG_LEVEL: "${LOG_LEVEL}"
+      TEST_SERVERS: "${TEST_SERVERS}"
+      SQLITE_DB: "${SQLITE_DB}"
+    volumes:
+      - ilo_sona_db:/project/db/
+    deploy:
+      restart_policy:
+        condition: "unless-stopped"
+
+volumes:
+  ilo_sona_db:
+    name: "ilo_sona_db"

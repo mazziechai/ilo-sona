@@ -5,12 +5,15 @@ import uuid
 import discord
 from discord.ext import commands
 
+from ilo.db import ChallengeDB
+
+LOG = logging.getLogger()
+
 
 class Ilo(discord.Bot):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, database_file: str, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        self.log = logging.getLogger("ilo")
+        self.db = ChallengeDB(database_file=database_file)
 
         # Loading every cog in the cogs folder
         cogs = ["translation"]
@@ -19,7 +22,7 @@ class Ilo(discord.Bot):
             self.load_extensions(f"ilo.cogs.{cog}")
 
     async def on_ready(self):
-        self.log.info("Logged in!")
+        LOG.info("Logged in!")
 
     async def on_application_command_error(
         self, ctx: discord.ApplicationContext, error
@@ -33,7 +36,7 @@ class Ilo(discord.Bot):
         if isinstance(error, discord.ApplicationCommandInvokeError):
             error_id = uuid.uuid4()
 
-            self.log.exception(
+            LOG.exception(
                 f"Exception from {ctx.command.qualified_name}!\n"
                 f"{''.join(traceback.format_exception(type(error), error, error.__traceback__))}"
                 f"Error ID: {error_id}"
@@ -42,5 +45,5 @@ class Ilo(discord.Bot):
             await ctx.respond(
                 f"Exception `{error.args}` from {ctx.command.qualified_name}!\n"
                 f"Error ID: `{error_id}`\n"
-                "Please direct the error ID to `nano ferret#8613` for debugging."
+                "Please send the error ID to `nano ferret#8613` for debugging."
             )

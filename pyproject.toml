@@ -1,30 +1,38 @@
-[tool.poetry]
+[project]
 name = "ilo"
 version = "0.1.0"
 description = ""
-authors = ["Mazzie <mazziechai@gmail.com>"]
-license = "MIT"
-
-[tool.poetry.dependencies]
-python = "^3.10"
-py-cord = "^2.1.3"
-mongoengine = "^0.24.2"
-python-dateutil = "^2.8.2"
-
-[tool.poetry.dev-dependencies]
-pre-commit = "^2.20.0"
-isort = "^5.10.1"
-black = "^22.8.0"
-flake9 = "^3.8.3"
-
+authors = [
+    { name = "Mazzie", email = "mazziechai@gmail.com" },
+    { name = "gregdan3", email = "gregdan3@pm.me" },
+]
+dependencies = [
+    "py-cord[speed]>=2.3.0",
+    "python-dateutil>=2.8.2",
+    "sqlalchemy>=2.0.0b3",
+]
+requires-python = ">=3.8"
+license = { text = "MIT" }
+[project.optional-dependencies]
 [tool.isort]
 profile = "black"
 multi_line_output = 3
 
 [tool.flake8]
 max-line-length = 88
-extend-ignore = ["E203", "E501", "F722"]
+extend-ignore = ["E203", "E501", "F722", "E402"]
+# E402 conflicts with isort
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["pdm-pep517>=1.0.0"]
+build-backend = "pdm.pep517.api"
+
+[tool.pdm]
+[tool.pdm.dev-dependencies]
+dev = [
+    "pytest>=7.2.0",
+    "black>=22.10.0",
+    "pre-commit>=2.20.0",
+    "isort>=5.10.1",
+    "flake9>=3.8.3.post2",
+]
